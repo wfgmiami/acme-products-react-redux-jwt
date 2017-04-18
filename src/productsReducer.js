@@ -11,9 +11,6 @@ const productsReducer = (state=[], action) => {
     case DESTROY_PRODUCT_SUCCESS:
       state = state.filter( product => product.id !== action.product.id)
       break;
-    case POST_PRODUCT_SUCCESS:
-      state = state.push(action.product).sort();
-      break;
     default:
       break;
   }
@@ -30,10 +27,6 @@ const destroyProductSuccess = (product) => ({
   product: product
 })
 
-const postProductSuccess = (product) => ({
-  type: POST_PRODUCT_SUCCESS,
-  product: product
-})
 
 const loadProducts = () => {
   return (dispatch) =>{
@@ -54,10 +47,9 @@ const destroyProduct = (product) => {
 }
 
 const postProduct = (product) => {
-  console.log(product)
   return (dispatch) => {
     axios.post('/api/products', product)
-    .then( () => dispatch(postProductSuccess(product)))
+    .then( () => dispatch(loadProducts()))
   }
 }
 

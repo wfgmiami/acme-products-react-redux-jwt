@@ -16,7 +16,7 @@ const route = (
       <Route path='/' component={ App }>
       <IndexRoute component={ Home }/>
       <Route path='products' component={ ProductsPage }/>
-      <Route path='login' component={LoginPage} />
+      <Route path='login' component={ LoginPage } />
       </Route>
     </Router>
   </Provider>

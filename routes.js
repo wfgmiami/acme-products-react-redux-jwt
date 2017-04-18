@@ -24,16 +24,14 @@ router.post('/products',(req,res,next)=>{
 })
 
 router.post('/session', (req,res,next)=>{
+
   User.findOne({
-    where: {
-      name: req.body.name,
-      password: req.body.password
-    }
+    where: { name: req.body.name, password: req.body.password }
   })
   .then( user => {
     if(user){
-      const token = jwt.encode({ id: user.id}, secret)
-      return res.send( { token })
+      const token = jwt.encode({ id: user.id },secret);
+      return res.send(token)
     }
     return res.sendStatus(401);
   })
@@ -46,14 +44,12 @@ router.get('/session/:token', (req,res,next)=>{
     User.findById(token.id)
     .then( user => {
       if(!user){
-        return res.sendStatus(401);
+        return res.sendStatus(401)
       }
       res.send(user);
     })
-
   }catch(e){
-    res.sendStatus(500);
+    res.sendStatus(500)
   }
 })
-
 module.exports = router;
