@@ -12,7 +12,7 @@ const App = ({ children, products, user }) => (
     <Link to='/products'>Products ({ products.length })</Link>
     {' | '}
 
-    <Link to='/login'>{ user ? `Log Out` : `Log In` }</Link>
+    <Link to='/login'>Log In</Link>
     {' | '} { user ? `Welcome ${ user.name }` : null }
   { children }
   </div>

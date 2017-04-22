@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import productsReducer,{ loadProducts } from './productsReducer';
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk';
-import authReducer, { me } from './authReducer';
+import authReducer, { me, logout } from './authReducer';
 
 const combinedReducer = combineReducers({
     products: productsReducer,
@@ -11,7 +11,7 @@ const combinedReducer = combineReducers({
 
 const store = createStore(combinedReducer,applyMiddleware(thunk));
 store.dispatch(loadProducts());
-store.dispatch(me());
+//store.dispatch(logout());
 
 export default store;
 

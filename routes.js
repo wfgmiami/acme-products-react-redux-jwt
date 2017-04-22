@@ -29,14 +29,19 @@ router.post('/session', (req,res,next)=>{
     where: { name: req.body.name, password: req.body.password }
   })
   .then( user => {
+
     if(user){
       const token = jwt.encode({ id: user.id },secret);
       return res.send(token)
+    }else{
+      return res.status(401).redirect('/')
+      //return res.sendStatus(401);
     }
-    return res.sendStatus(401);
+
   })
   .catch(next);
 })
+
 
 router.get('/session/:token', (req,res,next)=>{
   try{
@@ -44,7 +49,8 @@ router.get('/session/:token', (req,res,next)=>{
     User.findById(token.id)
     .then( user => {
       if(!user){
-        return res.sendStatus(401)
+        const errObj = { errMessage: 'User not found. Try again'}
+        return res.status(401).send(errObj)
       }
       res.send(user);
     })

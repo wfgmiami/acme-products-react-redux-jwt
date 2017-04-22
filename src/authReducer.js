@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS } from './constants';
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from './constants';
 import axios from 'axios';
 
 
@@ -13,17 +13,28 @@ const me = () => {
   }
 }
 
+const logout = (user) => {
+  //const token = localStorage.getItem('token');
+  return (dispatch)=>{
+    dispatch(logoutSuccess())
+    // return axios.get(`/api/session/${token}`)
+    // .then(response => response.data)
+    // .then(user => dispatch(logoutSuccess(user)))
+  }
+
+  localStorage.setItem('token', '')
+
+}
+
 const login = (credentials)=>{
   return (dispatch)=>{
-
     axios.post('/api/session', credentials)
-    .then( response => response.data )
+    .then( response => response.data)
     .then( token => {
-      localStorage.setItem('token', token)
-      return axios.get(`/api/session/${token}`)
+        return axios.get(`/api/session/${token}`)
+        .then(response => response.data)
+        .then(user => dispatch(loginSuccess(user)));
     })
-    .then(response => response.data)
-    .then(user => dispatch(loginSuccess(user)))
   }
 }
 
@@ -33,15 +44,22 @@ const loginSuccess = (user) => ({
   user
 })
 
+const logoutSuccess = () => ({
+  type: LOGOUT_SUCCESS
+})
+
 const authReducer = (state={}, action) => {
   switch(action.type){
     case LOGIN_SUCCESS:
       state = Object.assign({}, state, { user: action.user })
       break;
+    case LOGOUT_SUCCESS:
+      state = Object.assign({}, state, { user: ''})
+      break;
   }
   return state;
 }
 
-export { login, me };
+export { login, me, logout };
 
 export default authReducer;

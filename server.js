@@ -12,6 +12,10 @@ app.get('/',(req,res,send)=>{
   res.sendFile(__dirname + '/index.html');
 })
 
+app.get('/',(req,res,send)=>{
+  res.sendFile(__dirname + '/error.html');
+})
+
 app.use('/api', router);
 
 const port = process.env.PORT || 3000;
